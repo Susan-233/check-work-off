@@ -70,53 +70,23 @@ async function updateWorkProgress() {
     }
 
     // 计算时薪
-    const dailySalary = settings.monthlySalary / settings.workingDays;
-    const hourlyRate = dailySalary / (totalWorkMinutes / 60);
+    const hourlyRate = settings.monthlySalary / settings.workingDays / (totalWorkMinutes / 60);
 
-    // 计算当前进度和收入
+    // 计算当前进度
     let progress = 0;
     let earned = 0;
 
-    if (now < workStart) {
-        // 未开始工作
-        progress = 0;
-        earned = 0;
-    } else if (now > workEnd) {
-        // 已结束工作
-        progress = 100;
-        earned = dailySalary;
-    } else {
-        // 工作中
-        let elapsedMinutes = (now - workStart) / (1000 * 60);
-        
-        // 如果有午休且现在在午休时间，调整计算
-        if (settings.hasBreak) {
-            const breakStart = new Date(now);
-            const breakEnd = new Date(now);
-            const [breakStartHour, breakStartMin] = settings.breakStart.split(':');
-            const [breakEndHour, breakEndMin] = settings.breakEnd.split(':');
-            breakStart.setHours(parseInt(breakStartHour), parseInt(breakStartMin), 0);
-            breakEnd.setHours(parseInt(breakEndHour), parseInt(breakEndMin), 0);
-            
-            if (now >= breakStart && now <= breakEnd) {
-                // 在午休时间
-                elapsedMinutes = (breakStart - workStart) / (1000 * 60);
-            } else if (now > breakEnd) {
-                // 午休后
-                const breakDuration = (breakEnd - breakStart) / (1000 * 60);
-                elapsedMinutes -= breakDuration;
-            }
-        }
-
+    if (now >= workStart && now <= workEnd) {
+        const elapsedMinutes = (now - workStart) / (1000 * 60);
         progress = (elapsedMinutes / totalWorkMinutes) * 100;
         earned = (elapsedMinutes / 60) * hourlyRate;
+    } else if (now > workEnd) {
+        progress = 100;
+        earned = hourlyRate * (totalWorkMinutes / 60);
     }
 
-    // 确保进度在0-100之间
-    progress = Math.max(0, Math.min(100, progress));
-    
     // 更新界面
-    document.getElementById('progress-fill').style.width = `${progress.toFixed(1)}%`;
+    document.getElementById('progress-fill').style.width = `${progress}%`;
     document.getElementById('progress-text').textContent = `完成进度: ${progress.toFixed(1)}%`;
     document.getElementById('earned-money').textContent = `今日已赚: ¥${earned.toFixed(2)}`;
 }
@@ -165,12 +135,45 @@ function initializeSettings() {
     });
 }
 
+// 添加获取古诗���的函数
+async function fetchPoem() {
+    try {
+        const response = await fetch('https://v1.jinrishici.com/all.json');
+        const data = await response.json();
+        return {
+            content: data.content,
+            author: data.author || '佚名',  // 如果没有作者信息则显示"佚名"
+            title: data.origin || ''        // 如果没有标题则留空
+        };
+    } catch (error) {
+        console.error('获取诗词失败:', error);
+        return {
+            content: '人生天地间，忽如远行客。',
+            author: '李白',
+            title: '春夜宴从弟桃花园序'
+        }; // 网络请求失败时返回默认诗句
+    }
+}
+
+// 更新诗词显示
+async function updatePoem() {
+    const poemContainer = document.getElementById('poem-container');
+    if (!poemContainer) return;  // 确保元素存在
+    
+    const poem = await fetchPoem();
+    poemContainer.innerHTML = `
+        <p class="poem-text">${poem.content}</p>
+        <p class="poem-author">——${poem.author}${poem.title ? `《${poem.title}》` : ''}</p>
+    `;
+}
+
 // 初始化
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initializeSettings();
     updateTimeDisplay();
     updateWeekendCountdown();
     updateWorkProgress();
+    await updatePoem();  // 添加诗词更新
 
     // 每分钟更新一次
     setInterval(() => {

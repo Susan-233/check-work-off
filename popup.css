@@ -102,4 +102,26 @@ button:hover {
     margin-top: 8px;
     color: #666;
     font-size: 14px;
+}
+
+.poem-container {
+    margin: 15px 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.poem-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.poem-author {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
 } 
