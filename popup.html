@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">看看下班没</h1>
+        
+        <!-- 时间日期显示 -->
+        <div class="time-display">
+            <div id="current-time"></div>
+            <div id="current-date"></div>
+        </div>
+
+        <!-- 周末倒计时 -->
+        <div class="countdown">
+            <h3>距离周末还有</h3>
+            <div id="weekend-countdown"></div>
+        </div>
+
+        <!-- 工作进度 -->
+        <div class="work-progress">
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <div id="progress-text"></div>
+            <div id="earned-money"></div>
+        </div>
+
+        <!-- 设置表单 -->
+        <div class="settings">
+            <button id="settings-btn">设置</button>
+            <div id="settings-panel" class="hidden">
+                <div class="input-group">
+                    <label for="monthly-salary">月薪（元）</label>
+                    <input type="number" id="monthly-salary" placeholder="请输入税前月薪">
+                </div>
+                <div class="input-group">
+                    <label for="working-days">每月工作天数</label>
+                    <input type="number" id="working-days" placeholder="通常为22天">
+                </div>
+                <div class="input-group">
+                    <label for="work-start">上班时间</label>
+                    <input type="time" id="work-start">
+                </div>
+                <div class="input-group">
+                    <label for="work-end">下班时间</label>
+                    <input type="time" id="work-end">
+                </div>
+                <div class="break-time">
+                    <label>
+                        <input type="checkbox" id="has-break">
+                        有午休
+                    </label>
+                    <div class="input-group">
+                        <label for="break-start">午休开始时间</label>
+                        <input type="time" id="break-start">
+                    </div>
+                    <div class="input-group">
+                        <label for="break-end">午休结束时间</label>
+                        <input type="time" id="break-end">
+                    </div>
+                </div>
+                <button id="save-settings">保存</button>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html> 
