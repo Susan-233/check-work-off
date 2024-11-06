@@ -1,48 +1,66 @@
+/* 主容器样式 */
 .container {
     width: 300px;
     padding: 15px;
     font-family: Arial, sans-serif;
 }
 
+/* 标题样式 */
 .title {
     text-align: center;
-    color: #4CAF50;
+    color: #4CAF50;  /* 使用绿色主题 */
     margin-top: 0;
     margin-bottom: 15px;
 }
 
+/* 时间日期显示区域 */
 .time-display {
     text-align: center;
     margin-bottom: 15px;
 }
 
+/* 当前时间显示 */
 #current-time {
     font-size: 24px;
     font-weight: bold;
 }
 
+/* 当前日期显示 */
 #current-date {
     font-size: 16px;
     color: #666;
 }
 
+/* 倒计时区域 */
 .countdown {
     text-align: center;
     margin-bottom: 15px;
 }
 
+/* 工作进度区域 */
 .work-progress {
     margin-bottom: 15px;
 }
 
-.progress-bar {
+/* 进度条容器 */
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;  /* 减小进度条和百分比之间的间距 */
+    margin-bottom: 4px;
     width: 100%;
-    height: 20px;
+}
+
+/* 进度条基础样式 */
+.progress-bar {
+    flex: 0 0 270px;  /* 增加进度条宽度 */
+    height: 16px;
     background-color: #f0f0f0;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
+/* 进度条填充部分 */
 #progress-fill {
     height: 100%;
     background-color: #4CAF50;
@@ -50,18 +68,33 @@
     transition: width 0.3s ease;
 }
 
+/* 进度百分比文本 */
+#progress-text {
+    font-size: 13px;
+    color: #666;
+    white-space: nowrap;
+    min-width: 45px;  /* 减小最小宽度 */
+    text-align: right;
+    padding-right: 15px;  /* 与container的padding对齐 */
+    flex-shrink: 0;  /* 防止文本被压缩 */
+}
+
+/* 设置区域样式 */
 .settings {
     margin-top: 15px;
 }
 
+/* 隐藏元素的通用类 */
 .hidden {
     display: none;
 }
 
+/* 设置表单中的输入组 */
 .input-group {
     margin: 10px 0;
 }
 
+/* 输入框标签样式 */
 .input-group label {
     display: block;
     margin-bottom: 5px;
@@ -69,6 +102,7 @@
     font-size: 14px;
 }
 
+/* 设置面板中的输入框样式 */
 #settings-panel input {
     width: 100%;
     padding: 8px;
@@ -77,6 +111,7 @@
     box-sizing: border-box;
 }
 
+/* 午休设置区域样式 */
 .break-time {
     margin: 15px 0;
     padding: 10px;
@@ -84,6 +119,7 @@
     border-radius: 4px;
 }
 
+/* 按钮通用样式 */
 button {
     width: 100%;
     padding: 8px;
@@ -94,34 +130,50 @@ button {
     cursor: pointer;
 }
 
+/* 按钮悬停效果 */
 button:hover {
     background-color: #45a049;
 }
 
-#progress-text, #earned-money {
-    margin-top: 8px;
+/* 工作状态信息区域 */
+.work-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
     color: #666;
-    font-size: 14px;
+    margin-top: 4px;
+    padding-left: 2px;
+    padding-right: 15px;  /* 与container的padding对齐 */
 }
 
+/* 状态项之间的分隔符 */
+.stats-divider {
+    color: #ccc;
+}
+
+/* 诗词显示容器 */
 .poem-container {
     margin: 15px 0;
     padding: 12px;
     background: #f8f9fa;
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);  /* 轻微阴影效果 */
 }
 
+/* 诗词文本样式 */
 .poem-text {
     font-size: 16px;
     color: #333;
     margin-bottom: 8px;
-    line-height: 1.6;
+    line-height: 1.6;  /* 增加行高提高可读性 */
 }
 
+/* 诗词作者样式 */
 .poem-author {
     font-size: 14px;
     color: #666;
     margin: 0;
-} 
+}
+ 

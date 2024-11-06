@@ -70,9 +70,14 @@ async function updateWorkProgress() {
     }
 
     // 计算时薪
-    const hourlyRate = settings.monthlySalary / settings.workingDays / (totalWorkMinutes / 60);
+    const dailySalary = settings.monthlySalary / settings.workingDays;
+    const hourlyRate = dailySalary / (totalWorkMinutes / 60);
 
-    // 计算当前进度
+    // 示显时薪
+    document.getElementById('hourly-rate').textContent = 
+        `时薪: ¥${hourlyRate.toFixed(2)}/小时`;
+
+    // 计算当前进度和收入
     let progress = 0;
     let earned = 0;
 
@@ -87,7 +92,7 @@ async function updateWorkProgress() {
 
     // 更新界面
     document.getElementById('progress-fill').style.width = `${progress}%`;
-    document.getElementById('progress-text').textContent = `完成进度: ${progress.toFixed(1)}%`;
+    document.getElementById('progress-text').textContent = `${progress.toFixed(1)}%`;
     document.getElementById('earned-money').textContent = `今日已赚: ¥${earned.toFixed(2)}`;
 }
 
@@ -135,7 +140,7 @@ function initializeSettings() {
     });
 }
 
-// 添加获取古诗���的函数
+// 添加获取古诗的函数
 async function fetchPoem() {
     try {
         const response = await fetch('https://v1.jinrishici.com/all.json');
