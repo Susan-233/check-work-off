@@ -44,16 +44,13 @@
 
 /* 进度条容器 */
 .progress-container {
-    display: flex;
-    align-items: center;
-    gap: 4px;  /* 减小进度条和百分比之间的间距 */
-    margin-bottom: 4px;
     width: 100%;
+    margin-bottom: 4px;
 }
 
 /* 进度条基础样式 */
 .progress-bar {
-    flex: 0 0 270px;  /* 增加进度条宽度 */
+    width: 100%;  /* 让进度条占满容器宽度 */
     height: 16px;
     background-color: #f0f0f0;
     border-radius: 8px;
@@ -73,7 +70,7 @@
     font-size: 13px;
     color: #666;
     white-space: nowrap;
-    min-width: 45px;  /* 减小最小宽度 */
+    min-width: 36px;  /* 减小进度文本的宽度 */
     text-align: right;
     padding-right: 15px;  /* 与container的padding对齐 */
     flex-shrink: 0;  /* 防止文本被压缩 */
@@ -143,13 +140,33 @@ button:hover {
     font-size: 13px;
     color: #666;
     margin-top: 4px;
-    padding-left: 2px;
-    padding-right: 15px;  /* 与container的padding对齐 */
+    padding: 0 15px;  /* 与container的padding对齐 */
 }
 
-/* 状态项之间的分隔符 */
+/* 进度文本样式 */
+#progress-text {
+    min-width: 36px;  /* 减小进度文本的宽度 */
+    white-space: nowrap;
+}
+
+/* 时薪显示样式 */
+#hourly-rate {
+    flex: 1;  /* 让时薪占据部分剩余空间 */
+    white-space: nowrap;
+}
+
+/* 今日收入显示样式 */
+#earned-money {
+    width: 120px;  /* 固定宽度，确保右对齐 */
+    text-align: right;  /* 文本右对齐 */
+    white-space: nowrap;
+}
+
+/* 分隔符样式 */
 .stats-divider {
-    color: #ccc;
+    color: #ddd;
+    padding: 0 2px;  /* 使用padding替代margin */
+    flex-shrink: 0;  /* 防止分隔符被压缩 */
 }
 
 /* 诗词显示容器 */
