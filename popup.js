@@ -33,15 +33,34 @@ function updateTimeDisplay() {
 // 计算周末倒计时
 function updateWeekendCountdown() {
     const now = new Date();
-    const friday = new Date();
-    friday.setDate(friday.getDate() + (5 - friday.getDay()));
-    friday.setHours(18, 0, 0, 0);
+    const dayOfWeek = now.getDay(); // 0是周日，1-6是周一到周六
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    
+    let targetDate = new Date();
+    let countdownTitle = '';
+    
+    // 工作日（周一到周四）或周五未下班
+    if ((dayOfWeek >= 1 && dayOfWeek <= 4) || 
+        (dayOfWeek === 5 && (currentHour < 18 || (currentHour === 18 && currentMinute === 0)))) {
+        countdownTitle = '距离周末还有';
+        // 设置目标时间为本周五下班时间
+        targetDate.setDate(targetDate.getDate() + (5 - dayOfWeek));
+        targetDate.setHours(18, 0, 0, 0);
+    } else {
+        countdownTitle = '距离周一还有';
+        // 如果是周五下班后、周六或周日，计算到下周一零点
+        targetDate.setDate(targetDate.getDate() + ((8 - dayOfWeek) % 7));
+        targetDate.setHours(0, 0, 0, 0);
+    }
 
-    const diff = friday - now;
+    const diff = targetDate - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
+    // 更新标题和倒计时
+    document.getElementById('countdown-title').textContent = countdownTitle;
     document.getElementById('weekend-countdown').textContent = 
         `${days}天${hours}小时${minutes}分钟`;
 }

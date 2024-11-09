@@ -196,4 +196,26 @@ button:hover {
     color: #666;
     margin: 0;
 }
+
+/* 添加或修改倒计时容器的样式 */
+.countdown-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#countdown-title {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+    font-weight: bold;  /* 标题加粗 */
+    font-size: 14px;
+}
+
+#weekend-countdown {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;  /* 时间不加粗 */
+    color: #444;
+}
  
