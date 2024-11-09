@@ -80,11 +80,13 @@ async function updateWorkProgress() {
 
     // 计算工作时长（考虑午休）
     let totalWorkMinutes = (workEnd - workStart) / (1000 * 60);
+    let breakMinutes = 0;
+    
     if (settings.hasBreak) {
         const [breakStartHour, breakStartMin] = settings.breakStart.split(':');
         const [breakEndHour, breakEndMin] = settings.breakEnd.split(':');
-        const breakMinutes = (parseInt(breakEndHour) * 60 + parseInt(breakEndMin)) -
-                           (parseInt(breakStartHour) * 60 + parseInt(breakStartMin));
+        breakMinutes = (parseInt(breakEndHour) * 60 + parseInt(breakEndMin)) -
+                      (parseInt(breakStartHour) * 60 + parseInt(breakStartMin));
         totalWorkMinutes -= breakMinutes;
     }
 
@@ -92,7 +94,7 @@ async function updateWorkProgress() {
     const dailySalary = settings.monthlySalary / settings.workingDays;
     const hourlyRate = dailySalary / (totalWorkMinutes / 60);
 
-    // 示显时薪
+    // 显示时薪
     document.getElementById('hourly-rate').textContent = 
         `时薪: ¥${hourlyRate.toFixed(2)}/小时`;
 
@@ -100,13 +102,39 @@ async function updateWorkProgress() {
     let progress = 0;
     let earned = 0;
 
-    if (now >= workStart && now <= workEnd) {
-        const elapsedMinutes = (now - workStart) / (1000 * 60);
-        progress = (elapsedMinutes / totalWorkMinutes) * 100;
-        earned = (elapsedMinutes / 60) * hourlyRate;
+    if (now < workStart) {
+        // 未到上班时间
+        progress = 0;
+        earned = 0;
     } else if (now > workEnd) {
+        // 已经下班
         progress = 100;
-        earned = hourlyRate * (totalWorkMinutes / 60);
+        earned = dailySalary;
+    } else {
+        // 工作时间内
+        let elapsedMinutes = (now - workStart) / (1000 * 60);
+        
+        // 如果有午休，处理午休时间
+        if (settings.hasBreak) {
+            const breakStart = new Date(now);
+            const breakEnd = new Date(now);
+            const [breakStartHour, breakStartMin] = settings.breakStart.split(':');
+            const [breakEndHour, breakEndMin] = settings.breakEnd.split(':');
+            
+            breakStart.setHours(parseInt(breakStartHour), parseInt(breakStartMin), 0);
+            breakEnd.setHours(parseInt(breakEndHour), parseInt(breakEndMin), 0);
+            
+            if (now > breakEnd) {
+                // 午休后
+                elapsedMinutes -= breakMinutes;
+            } else if (now > breakStart && now <= breakEnd) {
+                // 午休中
+                elapsedMinutes = (breakStart - workStart) / (1000 * 60);
+            }
+        }
+        
+        progress = Math.min(100, (elapsedMinutes / totalWorkMinutes) * 100);
+        earned = (elapsedMinutes / 60) * hourlyRate;
     }
 
     // 更新界面
