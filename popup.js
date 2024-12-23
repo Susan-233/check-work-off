@@ -149,6 +149,7 @@ function initializeSettings() {
     const settingsPanel = document.getElementById('settings-panel');
     const saveBtn = document.getElementById('save-settings');
     const hasBreakCheckbox = document.getElementById('has-break');
+    const monthlySalaryInput = document.getElementById('monthly-salary');
 
     settingsBtn.addEventListener('click', () => {
         settingsPanel.classList.toggle('hidden');
@@ -159,9 +160,19 @@ function initializeSettings() {
         document.getElementById('break-end').disabled = !e.target.checked;
     });
 
+    // Add input event listener to restrict monthly salary
+    monthlySalaryInput.addEventListener('input', () => {
+        let value = parseFloat(monthlySalaryInput.value);
+        if (value > 1000000) {
+            monthlySalaryInput.value = 1000000;
+        }
+    });
+
     saveBtn.addEventListener('click', async () => {
+        let monthlySalary = parseFloat(monthlySalaryInput.value);
+
         const settings = {
-            monthlySalary: parseFloat(document.getElementById('monthly-salary').value),
+            monthlySalary: monthlySalary,
             workingDays: parseInt(document.getElementById('working-days').value),
             workStart: document.getElementById('work-start').value,
             workEnd: document.getElementById('work-end').value,
@@ -177,7 +188,7 @@ function initializeSettings() {
 
     // 加载已保存的设置
     loadSettings().then(settings => {
-        document.getElementById('monthly-salary').value = settings.monthlySalary;
+        monthlySalaryInput.value = settings.monthlySalary;
         document.getElementById('working-days').value = settings.workingDays;
         document.getElementById('work-start').value = settings.workStart;
         document.getElementById('work-end').value = settings.workEnd;
