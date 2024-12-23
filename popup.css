@@ -151,8 +151,9 @@ button:hover {
 
 /* 时薪显示样式 */
 #hourly-rate {
-    flex: 1;  /* ��时薪占据部分剩余空间 */
+    flex: 1;
     white-space: nowrap;
+    text-align: center; /* 居中对齐 */
 }
 
 /* 今日收入显示样式 */
