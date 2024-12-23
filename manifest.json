@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "看看下班没",
-  "version": "1.1",
+  "version": "1.2",
   "description": "工作日倒计时和工资计算器",
   "action": {
     "default_popup": "popup.html"
